@@ -1,0 +1,128 @@
+// Online C++ compiler to run C++ program online
+#include <iostream>
+using namespace std;
+
+class Node{
+    public:
+    int data;
+    Node* next;
+    
+    Node(int data){
+        this->data = data;
+        this->next = NULL;
+    }
+    
+    
+    ~Node(){
+        int value = this->data;
+        if(this->next !=NULL){
+            delete next;
+            this->next = NULL;
+        }
+        cout<<"Memory is free for "<<value<<endl;
+    }
+};
+
+void InsertAtHead(Node* &head,int d){
+    Node* temp = new Node(d);
+    temp->next = head;
+    head = temp;
+}
+
+void InsertAtTail(Node* &tail,int d){
+    Node* temp = new Node(d);
+    tail->next = temp;
+    tail = tail->next;
+}
+
+void InsertAtPosition(Node* &tail,Node* &head,int pos, int d){
+    
+    if(pos == 1){
+        InsertAtHead(head,d);
+        return;
+    }
+    
+    Node* temp = head;
+    int count = 1;
+    
+    while(count < pos-1){
+        temp = temp->next;
+        count++;
+    }
+    
+    if(temp->next == NULL){
+        InsertAtTail(tail,d);
+        return;
+    }
+    
+    Node * node = new Node(d);
+    node->next = temp->next;
+    temp->next = node;
+
+}
+
+void deleteNode(int position, Node* &head,Node* &tail){
+    
+    if(position == 1){
+        Node* temp = head;
+        head = head->next;
+        temp->next = NULL;
+        delete temp;
+    }
+    else{
+        Node* curr = head;
+        Node* prev = NULL;
+        int count =1;
+        while(count < position){
+            prev = curr;
+            curr = curr->next;
+            count++;
+        }
+        
+        if(curr == tail){
+            tail = prev;
+        }
+        
+        prev->next = curr->next;
+        curr->next = NULL;
+        delete curr;
+    }
+
+}
+
+void print(Node* &head){
+    Node* temp = head;
+    while(temp){
+        cout<<temp->data<<" ";
+        temp = temp->next;
+    }
+    cout<<endl;
+}
+int main() {
+   
+   Node* newnode = new Node(10);
+   Node* head = newnode;
+   Node* tail = newnode;
+   
+   InsertAtHead(head,12);
+   InsertAtHead(head,20);
+   InsertAtTail(tail,30);
+   InsertAtTail(tail,40);
+   print(head);
+   
+   InsertAtPosition(tail,head,3, 5);
+    print(head);
+    InsertAtPosition(tail,head,1, 9);
+    print(head);
+     InsertAtPosition(tail,head,8, 100);
+    print(head);
+    deleteNode(3, head,tail);
+    print(head);
+    deleteNode(1, head,tail);
+    print(head);
+    deleteNode(6, head,tail);
+    print(head);
+    cout << head->data<<endl;
+    cout << tail->data<<endl;
+    return 0;
+}
