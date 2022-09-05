@@ -29,11 +29,11 @@ class Graph{
 int main() {
     
     int n;
-    cout<<"Enter the no. of nodes"<<endl;
+    cout<<"Enter the nunber of nodes"<<endl;
     cin>>n;
     
     int e;
-    cout<<"Enter the no. of edges"<<endl;
+    cout<<"Enter the number of edges"<<endl;
     cin>>e;
     
     Graph g;
