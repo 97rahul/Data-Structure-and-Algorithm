@@ -1,0 +1,77 @@
+class Solution
+{
+    public:
+    //Function to add two numbers represented by linked list.
+    
+    
+    Node* reverse(struct Node* head){
+        
+        Node* curr = head;
+        Node* prev = NULL;
+        Node* next = NULL;
+        
+        while(curr){
+            next = curr->next;
+            curr->next = prev;
+            prev = curr;
+            curr = next;
+        }
+        return prev;
+    }
+    
+    void insertAtTail(struct Node* &head, struct Node* &tail,int digit){
+        Node* temp = new Node(digit);
+        
+        if(!head){
+            head = temp;
+            tail = temp;
+        }
+        else{
+            tail->next = temp;
+            tail = temp;
+        }
+    }
+    
+    
+    struct Node* add(struct Node* first, struct Node* second){
+        int carry = 0;
+        
+        Node* ansHead = NULL;
+        Node* ansTail = NULL;
+        
+        while(first || second || carry!=0){
+            int val1 = 0;
+            if(first)
+                val1 = first->data;
+            int val2 = 0;    
+            if(second)
+                val2 = second->data;
+                
+            int sum = carry + val1 + val2;
+            int digit = sum%10;
+            
+            insertAtTail(ansHead,ansTail,digit);
+            
+            carry = sum/10;
+            
+            if(first)
+                first = first->next;
+                
+            if(second)
+                second = second->next;
+            
+        }
+        return ansHead;
+    }
+    
+    struct Node* addTwoLists(struct Node* first, struct Node* second)
+    {
+        first = reverse(first);
+        second = reverse(second);
+        
+        Node* ans = add(first,second);
+        ans = reverse(ans);
+        
+        return ans;
+    }
+};
