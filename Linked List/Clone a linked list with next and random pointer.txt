@@ -1,0 +1,80 @@
+class Solution
+{
+    private:
+    
+     void insertAtTail(struct Node* &head, struct Node* &tail,int value){
+        
+        Node* temp = new Node(value);
+        
+        if(!head){
+            head = temp;
+            tail = temp;
+            return;
+        }
+        else{
+            tail->next = temp;
+            tail = temp;
+        }
+    }
+    
+    public:
+    Node *copyList(Node *head)
+    {
+        // Step 1: Creation of cloneNode
+        Node * cloneHead = NULL;
+        Node* cloneTail = NULL;
+        
+        Node* temp = head;
+        
+        while(temp){
+            insertAtTail(cloneHead,cloneTail,temp->data);
+            temp = temp->next;
+        }
+        
+        // Step 2: Insertion of clone Nodes in between Original Node
+        
+        Node* originalNode = head;
+        Node* cloneNode = cloneHead;
+        
+        while(originalNode){
+            
+            Node* next = originalNode->next;
+            originalNode->next = cloneNode;
+            originalNode = next;
+            
+            next = cloneNode->next;
+            cloneNode->next = originalNode;
+            cloneNode = next;
+        }
+        
+        // Step 3: Copy random nodes
+        
+        temp = head;
+        
+        while(temp){
+            if(temp->next){
+                temp->next->arb = temp->arb ? temp->arb->next:temp->arb;
+            }
+            temp = temp->next->next;
+        }
+        
+        // Step 4: revert changes done in Step 2
+        
+        originalNode = head;
+        cloneNode = cloneHead;
+        
+        while(originalNode && cloneNode){
+            
+            originalNode->next = cloneNode->next;
+            originalNode = originalNode->next;
+            
+            if(originalNode)
+                cloneNode->next = originalNode->next;
+            
+            cloneNode = cloneNode->next;
+        }
+        
+        return cloneHead;
+    }
+
+};
