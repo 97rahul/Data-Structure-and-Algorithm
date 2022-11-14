@@ -1,0 +1,58 @@
+/********************************
+    class Node
+    {
+    public:
+        int data;
+        Node *next;
+        Node(int data)
+        {
+            this->data = data;
+            this->next = NULL;
+        }
+    };
+
+********************************/
+void InsertAtTail(Node* &tail,Node* curr){
+	tail->next = curr;
+	tail = curr;
+}
+
+Node* sortList(Node *head)
+{
+    Node* Zerohead = new Node(-1);
+	Node* Zerotail = Zerohead;
+	Node* Onehead = new Node(-1);
+	Node* Onetail = Onehead;
+	Node* Twohead = new Node(-1);
+	Node* Twotail = Twohead;
+	
+	Node* temp = head;
+	
+	while(temp){
+		int val = temp->data;
+		if(val == 0)
+			InsertAtTail(Zerotail,temp);
+		else if(val == 1)
+			InsertAtTail(Onetail,temp);
+		else if(val == 2)
+			InsertAtTail(Twotail,temp);
+		
+		temp = temp->next;
+	}
+	
+	if(Onehead->next)
+		Zerotail->next = Onehead->next;
+	else
+		Zerotail->next = Twohead->next;
+	
+	Onetail->next = Twohead->next;
+	Twotail->next = NULL;
+	
+	head = Zerohead->next;
+	delete Zerohead;
+	delete Onehead;
+	delete Twohead;
+	
+	return head;
+
+}
